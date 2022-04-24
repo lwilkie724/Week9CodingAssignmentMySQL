@@ -1,0 +1,38 @@
+CREATE DATABASE IF NOT EXISTS social_media_app;
+
+USE social_media_app;
+
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS posts;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	username VARCHAR(24) NOT NULL,
+	email VARCHAR(32),
+	password VARCHAR(24) NOT NULL,
+
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE posts (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	user_id INT(11) NOT NULL,
+	post_text VARCHAR(240) NOT NULL,
+	post_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+	PRIMARY KEY (id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE comments (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	post_id INT(11) NOT NULL,
+	user_id INT(11) NOT NULL,
+	comment_text VARCHAR(120),
+	comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+	PRIMARY KEY (id),
+	FOREIGN KEY (post_id) REFERENCES posts(id),
+	FOREIGN KEY (user_id) REFERENCES users(id)
+);
